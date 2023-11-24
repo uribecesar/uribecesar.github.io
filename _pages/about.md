@@ -1,26 +1,27 @@
 ---
 layout: about
-title: about
+title: Acerca
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Moto. Etc.
-
+subtitle: <a href='https://www.linkedin.com/in/uribealvites/'>Ingeniero de Sistemas.</a>
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>uribe.alvites@gmail.com</p>
+    <p>Ciudad de Ica, Peru</p>
 
 news: true  # includes a list of news items
 latest_posts: true  # includes a list of the newest posts
-selected_papers: true # includes a list of papers marked as "selected={true}"
+selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
+Profesional de la [Universidad Nacional San Luis Gonzaga de Ica](http://www.unica.edu.pe/), con experiencia centrada en el desarrollo de soluciones empresariales `ERP` `CRM` `Soluciones Dedicadas`  y la implementación de infraestructura corporativa, especialmente en el ámbito del software empresarial con tecnologías como Python, Django, PHP, Laravel en plataformas como `AWS`  y `Azure` .
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+A lo largo de mi carrera, he trabajado en proyectos que abarcan el desarrollo de sistemas corporativos y la automatización con inteligencia artificial, colaborando eficientemente en equipos multidisciplinarios.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+Como educador tecnológico certificado, he compartido mi conocimiento a través de cursos especializados como capacitador corporativo en `Systematic`, y en plataformas como `Udemy` destacando la automatización con tecnologías de inteligencia artificial y su relevancia en la actualidad.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](http://fortawesome.github.io/Font-Awesome/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+En mi historial, he liderado proyectos que han contribuido al éxito de empresas mediante la implementación de soluciones tecnológicas eficientes. También he participado en el desarrollo de identidad corporativa y estrategias de marketing digital para diversas PYMEs de la región.
+
+Mi compromiso con el aprendizaje continuo se refleja en certificaciones recientes, que abarcan habilidades en `Linux`, `Data Science`, y `Kubernetes` Operators. Estoy dedicado a mantenerme actualizado para ofrecer soluciones tecnológicas efectivas.
