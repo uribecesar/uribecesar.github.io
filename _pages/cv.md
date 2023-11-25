@@ -4,8 +4,8 @@ permalink: /cv/
 title: CV
 nav: true
 nav_order: 4
-cv_pdf: example_pdf.pdf
-description: This is a description of the page. You can modify it in 'pages/_cv.md'. You can also change or remove the top pdf download button.
+cv_pdf: cv_cesar_uribe_alvites.pdf
+description:  Para el currículum detallado revisar la version PDF.
 toc:
   sidebar: left
 ---

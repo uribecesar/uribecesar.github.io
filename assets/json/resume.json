@@ -1,70 +1,123 @@
 {
-  "basics": {
-    "name": "Albert Einstein",
-    "label": "Scientist",
-    "image": "",
-    "email": "albert@einstein.de",
-    "phone": "(912) 123-4567",
-    "url": "https://alshedivat.github.io/al-folio/",
-    "summary": "A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time",
+  "informacion": {
+    "nombre": "Cesar Uribe",
+    "profesion": "Ingeniero de Sistemas",
+    "email": "uribe.alvites@gmail.com",
+    "movil": "(+51) 960 409 249",
+    "url": "http://uribecesar.github.io/",
+    "Bio": "Consultor en TI. Especializado en el desarrollo de software empresarial",
     "location": {
-      "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
-      "countryCode": "US",
-      "region": "California"
+      "city": "Ica",
+      "countryCode": "Pe",
+      "region": "Ica, Peru"
     },
     "profiles": [
       {
         "network": "Twitter",
-        "username": "AlbertEinstein",
-        "url": "https://twitter.com/AlbertEinstein"
+        "username": "uribecesare",
+        "url": "https://twitter.com/UribeCesarE"
       }
     ]
   },
-  "work": [
+  "trabajo": [
     {
-      "name": "Institute for Advanced Study, Princeton University",
-      "position": "Professor of Theoretical Physics",
-      "url": "https://example.com",
-      "startDate": "1933-01-01",
-      "endDate": "1955-01-01",
-      "summary": "Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.",
+      "name": " ",
+      "position": "Consultor de TI",
+      "startDate": "Jun 15",
+      "endDate": "Ahora",
+      "summary": "Desarrollo soluciones empresariales para PYMEs, especializado en Python, PHP y .NET. Implementación de sistemas corporativos de código abierto (Vtiger, SuiteCrm, Odoo, AbanteCart, InvoiceNinja) en AWS y AZURE. Trabajo con equipos de marketing y diseño para el desarrollo de imagen corporativa. Proyectos relevantes recientes:",
       "highlights": [
-        "Relativity"
+        "Nov/23 Desarrollo Sistema de Reservas de Hotel — Bluemoon Hotel",
+        "Oct/23 Desarrollo CRM — OKUsa Importaciones",
+        "Oct/23 Brochure & e-Publishing — Dicon Sur Peru E.I.R.L.",
+        "Set/23 Implementación de Email Server — The Wedding Peru"
       ]
-    }
-  ],
-  "volunteer": [],
-  "education": [
+    },
     {
-      "institution": "University of Zurich, Zurich, Switzerland",
-      "url": "https://www.uzh.ch/",
-      "area": "Software Development",
-      "studyType": "PhD",
-      "startDate": "1905-01-01",
-      "endDate": "1905-01-01",
-      "score": "",
+      "name": "Educador Tecnológico",
+      "position": "Udemy Certified Instructor",
+      "startDate": "Ago 23",
+      "endDate": "Ahora",
+      "summary": "Desarrollo cursos de difusión tecnológica enfocados en la automatización con tecnologías de inteligencia artificial. Cursos destacados:",
+      "highlights": [
+        "Asistente Virtual: Domina la Automatización de Data Entry",
+        "Automatización en Diseño de Logotipos: ChatGPT e IA Aplicada"
+      ]
+    },
+    {
+      "name": "Educador Tecnológico",
+      "position": "Capacitador Corporativo en SYSTEMATIC ",
+      "startDate": "Feb 21",
+      "endDate": "Jun 23",
+      "summary": "Desarrollo cursos de difusión tecnológica enfocados en la automatización con tecnologías de inteligencia artificial. Cursos destacados:",
+      "highlights": [
+        "Asistente Virtual: Domina la Automatización de Data Entry",
+        "Automatización en Diseño de Logotipos: ChatGPT e IA Aplicada"
+      ]
+    },
+    {
+      "name": "Neozol del Peru S.A.C.",
+      "position": "Desarrollador y Coordinador de TI",
+      "startDate": "Ene 20",
+      "endDate": "Abr 21",
+      "summary": "Lideré el desarrollo de aplicaciones internas, implementé SuiteCRM y Odoo con éxito. Dirigí Proyecto de desarollo del sistema de gestion de proformas y  facturas, con Django y Python. Contribuí al desarrollo de identidad corporativa y estrategias de marketing digital, liderando el rebranding de Ricmale S.A.C. a Neozol del Perú. S.A.C"
+
+    },
+    {
+      "name": "I.E. San Luis Gonzaga, Ica",
+      "position": "Analista TI Administrativo ",
+      "startDate": "Mar 18",
+      "endDate": "Ago 18",
+      "summary": " Lideré el análisis, desarrollo y mantenimiento de soluciones tecnológicas para mejorar la eficiencia administrativa en el sector de tesorería de la institución. Realicé evaluaciones de los procesos administrativos existentes, identificando oportunidades de mejora y diseñando e implementando soluciones informáticas efectivas."
+
+    }
+
+  ],
+  "educacion": [
+    {
+      "institution": "Universidad Nacional San Luis Gonzaga",
+      "url": "https://www.unica.edu.pe/",
+      "location": "Ica, Peru",
+      "area": "Grado academico: Titulado",
+      "studyType": "Ingeniero de Sistemas",
+      "startDate": "2010",
+      "endDate": "2014",
       "courses": [
-        "Theory of Relativity"
+        "Preparado para mejorar los procesos de negocios empresariales, optimizando flujos de información y generar software de calidad.",
+        "Dic/15: Ingeniero de Sistema Titulado"
       ]
     }
   ],
-  "awards": [
+  "tecnologias": [
     {
-      "title": "Nobel Prize in Physics",
-      "date": "1921-11-01",
-      "awarder": "Royal Swedish Academy of Sciences",
-      "summary": "The Nobel Prizes are five separate prizes that, according to Alfred Nobel's will of 1895, are awarded to 'those who, during the preceding year, have conferred the greatest benefit to humankind.'"
+      "Name": "Master",
+      "levels": "Master",
+      "icon": "fa-solid fa-hashtag",
+      "keywords": [
+        "PHP, Python, Ruby, Java, Rust, SQL", 
+        "MS Windows; UNIX like: GNU/Linux, BSD.",
+        "Office 365, iWork, libreOffice  ",
+        "SuiteCRM, Odoo,  Wordpress, Open Cart"
+      ]
+    }, 
+    {
+      "Name": "Sofware",
+      "levels": "Master",
+      "icon": "fa-solid fa-hashtag",
+      "keywords": [
+        "Tableau, MS Power BI, Plotly, LabPlot",      
+        "Adobe CC, Affinity, Blender, Godot, Unreal",
+        "Sql Lite, MariaDb, PostgreSQL, MongoDB"
+        ]
+      
     }
+
   ],
-  "certificates": [],
-  "publications": [],
-  "skills": [],
-  "languages": [
+  
+  "idiomas": [
     {
-      "language": "German",
-      "fluency": "Native speaker"
+      "language": "Español",
+      "fluency": "Hablante  Nativo"
     },
     {
       "language": "English",
