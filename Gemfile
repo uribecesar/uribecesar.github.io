@@ -24,6 +24,6 @@ end
 group :other_plugins do
     gem 'feedjira'
     gem 'httparty'
-    # wdm uncomment on local
-    # gem 'wdm', '~> 0.1.0' 
+    #wdm uncomment on local
+    #gem 'wdm', '~> 0.1.0' 
 end
