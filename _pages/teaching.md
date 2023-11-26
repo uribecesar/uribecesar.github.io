@@ -2,7 +2,7 @@
 layout: page
 permalink: /ensenanza/
 title: Enseñanza
-description: Curso, Capacitaciones y Seminarios Realizados
+description: Curso, Capacitaciones y Seminarios brindados.
 nav: true
 nav_order: 5
 ---
@@ -35,7 +35,7 @@ La diferenciación clave de este curso radica en su enfoque práctico y resoluci
 ![IA](https://img.shields.io/badge/Inteligencia%20Artificial-Aplicada-orange)
 
 
-Este curso, proporciona ls habilidades esenciales para destacar como asistentes virtuales altamente competentes en la gestión de datos. Desde los fundamentos básicos hasta técnicas avanzadas, el curso está diseñado para equipar a los participantes con conocimientos y herramientas cruciales para optimizar la eficiencia empresarial o avanzar en sus carreras.
+Este curso, proporciona las habilidades esenciales para destacar como asistentes virtuales altamente competentes en la gestión de datos. Desde los fundamentos básicos hasta técnicas avanzadas, el curso está diseñado para equipar a los participantes con conocimientos y herramientas cruciales para optimizar la eficiencia empresarial o avanzar en sus carreras.
 
 {% include figure.html path="assets/img/curso_2.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
 
