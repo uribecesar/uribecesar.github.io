@@ -12,11 +12,8 @@ giscus_comments: true
 
 ## Introducción
 
-En los últimos años, los **modelos de lenguaje de gran tamaño** (LLM, por sus
-siglas en inglés) han transformado el panorama de la inteligencia artificial.
-Estos modelos son capaces de generar y comprender texto de forma sorprendentemente
-natural, lo que ha impulsado aplicaciones en traducción automática, asistencia
-virtual y creación de contenidos, entre otros campos.
+En los últimos años, los **modelos de lenguaje de gran tamaño** (LLM, por sus siglas en inglés) han transformado el panorama de la inteligencia artificial.
+Estos modelos son capaces de generar y comprender texto de forma sorprendentemente natural, lo que ha impulsado aplicaciones en traducción automática, asistencia virtual y creación de contenidos, entre otros campos.
 
 ## ¿Qué es un LLM?
 
