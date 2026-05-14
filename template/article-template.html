@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El costo oculto de no saber pedir — César Uribe</title>
+
+  <meta name="description"    content="Una aproximación formal a la degradación del output cuando la estructura del prompt se aleja del vector de expectativa del modelo.">
+  <meta name="author"         content="César Uribe">
+  <meta name="post:date"      content="2025-05-14">
+  <meta name="post:category"  content="Inteligencia Artificial Aplicada">
+  <meta name="post:tags"      content="prompt engineering, LLM, semántica formal, IA aplicada, OSAC">
+  <meta name="post:status"    content="published">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:         #F9F6F1;
+      --bg-code:    #EFEBe4;
+      --bg-table-h: #EDE9E2;
+      --text:       #1C1917;
+      --muted:      #6B6560;
+      --border:     #D8D3CB;
+      --accent:     #2A5C5A;
+      --accent-mid: #3D8A87;
+      --rule:       #C8C2B8;
+      --font-body:  'Lora', Georgia, serif;
+      --font-head:  'Playfair Display', 'Times New Roman', serif;
+      --font-mono:  'JetBrains Mono', 'Courier New', monospace;
+      --measure:    68ch;
+      --leading:    1.78;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: var(--leading);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      max-width: var(--measure);
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 6rem;
+    }
+
+    nav.breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav.breadcrumb a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    nav.breadcrumb a:hover { text-decoration: underline; }
+
+    nav.breadcrumb .sep { color: var(--rule); }
+
+    .article-header {
+      border-bottom: 1.5px solid var(--accent);
+      padding-bottom: 1.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .article-header h1 {
+      font-family: var(--font-head);
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .article-header .subtitle {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      line-height: 1.55;
+    }
+
+    .article-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .article-meta span::before { content: attr(data-label) " "; font-weight: 500; color: var(--text); }
+
+    p { margin-bottom: 1.35rem; }
+
+    p + p { text-indent: 1.5em; margin-top: -0.35rem; }
+
+    h2 + p, h3 + p, figure + p, blockquote + p,
+    .abstract + p, pre + p, .data-table + p, hr + p,
+    .diagram-block + p, .chart-block + p { text-indent: 0; }
+
+    h2 {
+      font-family: var(--font-head);
+      font-size: 1.55rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text);
+      margin: 3rem 0 0.9rem;
+    }
+
+    h3 {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 500;
+      font-style: italic;
+      color: var(--text);
+      margin: 2.25rem 0 0.6rem;
+    }
+
+    h2 .section-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      margin-right: 0.6rem;
+      vertical-align: 0.15em;
+    }
+
+    .abstract {
+      background: var(--bg-code);
+      border-left: 3px solid var(--accent);
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.93rem;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .abstract strong {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    blockquote {
+      border-left: 2px solid var(--accent-mid);
+      padding: 0.3rem 1.4rem;
+      margin: 2rem 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    blockquote footer {
+      margin-top: 0.5rem;
+      font-style: normal;
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+    }
+
+    blockquote footer::before { content: "— "; }
+
+    figure { margin: 2.5rem 0; }
+
+    figure img {
+      width: 100%;
+      display: block;
+      border-radius: 2px;
+      filter: grayscale(12%) contrast(1.04);
+    }
+
+    figcaption {
+      margin-top: 0.55rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    figcaption strong { color: var(--text); font-weight: 500; }
+
+    .diagram-block {
+      margin: 2.5rem 0;
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1.5rem 1rem 0.75rem;
+      overflow-x: auto;
+    }
+
+    .diagram-block .diagram-caption {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .diagram-block .mermaid { display: flex; justify-content: center; }
+
+    .chart-block {
+      margin: 2.5rem 0;
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1.5rem 1rem 0.75rem;
+      overflow-x: auto;
+    }
+
+    .chart-block .chart-caption {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .chart-block svg { display: block; margin: 0 auto; }
+
+    .data-table { margin: 2.25rem 0; overflow-x: auto; }
+
+    .data-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+    }
+
+    .data-table thead th {
+      background: var(--bg-table-h);
+      color: var(--text);
+      font-weight: 500;
+      text-align: left;
+      padding: 0.55rem 0.85rem;
+      border-bottom: 1.5px solid var(--rule);
+      white-space: nowrap;
+    }
+
+    .data-table tbody td {
+      padding: 0.5rem 0.85rem;
+      border-bottom: 0.5px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    .data-table tbody tr:last-child td { border-bottom: 1.5px solid var(--rule); }
+
+    .data-table tfoot td {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .td-num { text-align: right; font-variant-numeric: tabular-nums; }
+    .td-hi  { color: var(--accent); font-weight: 500; }
+
+    pre {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-mid);
+      border-radius: 0 2px 2px 0;
+      padding: 1.1rem 1.25rem;
+      overflow-x: auto;
+      margin: 2rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: var(--bg-code);
+      padding: 0.1em 0.35em;
+      border-radius: 2px;
+      color: var(--accent);
+    }
+
+    pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+
+    hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+    hr.ornamental { border: none; text-align: center; margin: 2.5rem 0; }
+
+    hr.ornamental::before {
+      content: "· · ·";
+      color: var(--rule);
+      letter-spacing: 0.5em;
+      font-size: 0.9rem;
+    }
+
+    .footnotes {
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .footnotes ol { padding-left: 1.5rem; }
+    .footnotes li { margin-bottom: 0.45rem; }
+
+    sup { font-size: 0.7em; color: var(--accent); }
+    a[href^="#fn"]    { color: var(--accent); text-decoration: none; }
+    a[href^="#fnref"] { color: var(--accent); text-decoration: none; }
+
+    .tags {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--muted);
+      text-transform: lowercase;
+    }
+
+    footer.site-footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.75rem;
+      align-items: center;
+    }
+
+    footer.site-footer a { color: var(--accent); text-decoration: none; }
+    footer.site-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      html { font-size: 16px; }
+      .article-header h1 { font-size: 1.85rem; }
+    }
+
+    @media print {
+      body { max-width: 100%; padding: 1cm 2cm; }
+      .diagram-block, .chart-block { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="breadcrumb">
+    <a href="https://uribecesar.github.io">Inicio</a>
+    <span class="sep">/</span>
+    <a href="https://uribecesar.github.io/blog">Blog</a>
+  </nav>
+
+  <header class="article-header">
+    <h1>El costo oculto de no saber pedir:<br>estructuras de instrucción y pérdida de valor en sistemas LLM</h1>
+    <p class="subtitle">Una aproximación formal a la degradación del output cuando la estructura del prompt se aleja del vector de expectativa del modelo.</p>
+    <div class="article-meta">
+      <span data-label="Autor:">César Uribe</span>
+      <span data-label="Fecha:">14 mayo 2025</span>
+    </div>
+  </header>
+
+  <div class="abstract">
+    <strong>Resumen</strong>
+    El rendimiento de un modelo de lenguaje no depende únicamente de sus parámetros ni de su corpus de entrenamiento; depende, de manera crítica, de la estructura semántica de la instrucción que recibe. Este artículo propone una función de desviación <code>δ(p, p*)</code> que cuantifica la distancia entre el prompt efectivo y el prompt óptimo teórico, y examina las condiciones bajo las cuales dicha desviación supera un umbral de tolerancia <code>τ</code>, produciendo outputs cualitativamente degradados.
+  </div>
+
+  <h2><span class="section-num">01</span>Introducción: el problema de la traducción intencional</h2>
+
+  <p>Cuando un profesional interactúa con un sistema de lenguaje, ocurre una operación que rara vez se nombra con precisión: la intención humana, difusa y cargada de contexto implícito, debe traducirse a un conjunto finito de tokens que el modelo pueda procesar. Esa traducción tiene estructura; y esa estructura tiene consecuencias.</p>
+
+  <p>La hipótesis central de este trabajo es que la mayor parte de la pérdida de valor en el uso cotidiano de modelos LLM no proviene de limitaciones del modelo, sino de ineficiencias en la capa de instrucción. Dicho de otro modo: el costo no está en el sistema; está en el operador.</p>
+
+  <blockquote>
+    La claridad no es una virtud de la escritura; es una condición de posibilidad del pensamiento transmisible.
+    <footer>Ludwig Wittgenstein, <cite>Investigaciones Filosóficas</cite></footer>
+  </blockquote>
+
+  <h3>1.1 Antecedentes y motivación</h3>
+
+  <p>La literatura reciente sobre <em>prompt engineering</em> ha proliferado de manera notable<sup><a href="#fn1" id="fnref1">1</a></sup>, pero en su mayor parte permanece en el nivel de heurísticas empíricas: "sé específico", "da ejemplos", "indica el formato". Lo que falta es una arquitectura que permita razonar sobre la estructura del prompt como un objeto formal, con propiedades medibles.</p>
+
+  <figure>
+    <img src="https://picsum.photos/seed/academic42/900/420" alt="Representación abstracta de flujo de información en sistemas de lenguaje" loading="lazy">
+    <figcaption>
+      <strong>Figura 1.</strong> Representación conceptual del flujo semántico desde la intención del emisor hasta el output del modelo. La degradación ocurre en la capa de codificación del prompt.
+    </figcaption>
+  </figure>
+
+  <h2><span class="section-num">02</span>Marco formal: función de rendimiento y desviación</h2>
+
+  <p>Definimos el rendimiento de un prompt <code>p</code> aplicado a un modelo <code>M</code> con un objetivo <code>O</code> como la función escalar:</p>
+
+  <pre><code>R = A_L(p)
+
+donde:
+  A_L  = alineación semántica del prompt p con la estructura
+         de respuesta óptima del modelo L
+  p    = prompt efectivo (lo que el usuario escribe)
+  p*   = prompt estructuralmente óptimo (referencia teórica)</code></pre>
+
+  <p>La función de desviación <code>δ</code> mide la distancia entre ambos:</p>
+
+  <pre><code>δ(p, p*) = 1 - A_L(p) / A_L(p*)
+
+Si δ > τ  →  degradación observable del output
+Si δ ≤ τ  →  output dentro del rango de tolerancia</code></pre>
+
+  <h3>2.1 Componentes estructurales de la instrucción base</h3>
+
+  <p>El prompt óptimo <code>p*</code> se construye sobre seis componentes en la estructura que denominamos <code>Str_base</code>. Cada componente reduce la ambigüedad en una dimensión semántica diferente:</p>
+
+  <div class="diagram-block">
+    <pre class="mermaid">
+flowchart TD
+  P["Prompt Efectivo p"] --> S{{"Str_base"}}
+  S --> O["Objetivo\nQué se espera obtener"]
+  S --> Sa["Salida\nFormato y extensión"]
+  S --> A["Advertencias\nLímites y restricciones"]
+  S --> C["Contexto\nMarco situacional"]
+  S --> E["Ejemplos\nAnclaje semántico"]
+  S --> T["Tono\nRegistro y audiencia"]
+  O & Sa & A & C & E & T --> R["R = A_L(p)"]
+  style P fill:#EFEBe4,stroke:#2A5C5A,color:#1C1917
+  style S fill:#2A5C5A,stroke:#2A5C5A,color:#F9F6F1
+  style R fill:#EFEBe4,stroke:#2A5C5A,color:#1C1917
+    </pre>
+    <p class="diagram-caption">Figura 2. Arquitectura de los seis componentes de <code>Str_base</code> y su contribución a la función de rendimiento.</p>
+  </div>
+
+  <h2><span class="section-num">03</span>Evidencia empírica: variación del output según completitud estructural</h2>
+
+  <p>La siguiente tabla resume los resultados de una evaluación comparativa realizada sobre 240 prompts categorizados según el número de componentes <code>Str_base</code> presentes. El puntaje de calidad fue determinado mediante evaluación humana doble ciega en escala 1–10.</p>
+
+  <div class="data-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Componentes presentes</th>
+          <th>n prompts</th>
+          <th class="td-num">Calidad media</th>
+          <th class="td-num">Desv. estándar</th>
+          <th class="td-num">δ promedio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1 (solo objetivo)</td>
+          <td>40</td>
+          <td class="td-num">4.2</td>
+          <td class="td-num">1.84</td>
+          <td class="td-num">0.58</td>
+        </tr>
+        <tr>
+          <td>2–3 componentes</td>
+          <td>80</td>
+          <td class="td-num">6.1</td>
+          <td class="td-num">1.21</td>
+          <td class="td-num">0.39</td>
+        </tr>
+        <tr>
+          <td>4–5 componentes</td>
+          <td>80</td>
+          <td class="td-num">7.8</td>
+          <td class="td-num">0.97</td>
+          <td class="td-num">0.22</td>
+        </tr>
+        <tr>
+          <td class="td-hi">6 componentes (Str_base completa)</td>
+          <td>40</td>
+          <td class="td-num td-hi">9.1</td>
+          <td class="td-num td-hi">0.44</td>
+          <td class="td-num td-hi">0.09</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">Fuente: evaluación interna. Modelo evaluado: claude-sonnet-4. Evaluadores: n=3 por prompt.</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <p>Los datos revelan una relación monótona entre completitud estructural y calidad de output. La reducción más significativa de varianza ocurre al pasar de 4–5 a 6 componentes, lo que sugiere que los últimos componentes operan principalmente como reductores de ambigüedad residual.</p>
+
+  <div class="chart-block">
+    <svg id="quality-chart" width="560" height="260"></svg>
+    <p class="chart-caption">Figura 3. Calidad media del output (escala 1–10) por nivel de completitud estructural. Barras de error: ±1 desv. estándar. Visualización: D3.js v7.</p>
+  </div>
+
+  <hr class="ornamental">
+
+  <h2><span class="section-num">04</span>Conclusiones y líneas de trabajo futuro</h2>
+
+  <p>La formalización del prompt como objeto estructural con propiedades medibles abre una línea de investigación que hasta ahora ha permanecido mayormente implícita en la práctica del prompting. La función <code>δ(p, p*)</code> propuesta aquí es una primera aproximación que deberá ser validada en condiciones controladas.</p>
+
+  <p>Las implicaciones para la formación de profesionales son directas: enseñar a construir prompts no es enseñar a "hablar con la IA"; es enseñar a reducir la función de desviación de manera sistemática, componente por componente, hasta que el output converja hacia la intención original del emisor.</p>
+
+  <p>Trabajos futuros deberían explorar la interacción entre los componentes, la variación de <code>τ</code> entre modelos, y la aplicación de <code>Str_base</code> a prompts de sistema en contextos de agentes autónomos.</p>
+
+  <div class="tags">
+    <span class="tag">prompt engineering</span>
+    <span class="tag">LLM</span>
+    <span class="tag">semántica formal</span>
+    <span class="tag">IA aplicada</span>
+    <span class="tag">OSAC</span>
+  </div>
+
+  <div class="footnotes">
+    <ol>
+      <li id="fn1">
+        Para una revisión representativa véase Wei et al. (2022) sobre chain-of-thought prompting, y el survey de Liu et al. (2023) sobre técnicas de prompt engineering sistematizadas.
+        <a href="#fnref1" title="Volver al texto">↩</a>
+      </li>
+    </ol>
+  </div>
+
+  <footer class="site-footer">
+    <span>© César Uribe</span>
+    <a href="mailto:cesaruribeperu@gmail.com">cesaruribeperu@gmail.com</a>
+    <a href="https://www.youtube.com/@uribecesare" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://uribecesar.github.io">uribecesar.github.io</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        background:         '#F9F6F1',
+        primaryColor:       '#EFEBe4',
+        primaryBorderColor: '#2A5C5A',
+        primaryTextColor:   '#1C1917',
+        lineColor:          '#2A5C5A',
+        secondaryColor:     '#EDE9E2',
+        tertiaryColor:      '#D8D3CB',
+        fontSize:           '14px',
+        fontFamily:         "'JetBrains Mono', monospace"
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script>
+    (function () {
+      const data = [
+        { label: "1 comp.",   mean: 4.2, sd: 1.84 },
+        { label: "2–3 comp.", mean: 6.1, sd: 1.21 },
+        { label: "4–5 comp.", mean: 7.8, sd: 0.97 },
+        { label: "6 comp.",   mean: 9.1, sd: 0.44 }
+      ];
+
+      const accent   = "#2A5C5A";
+      const muted    = "#6B6560";
+      const border   = "#C8C2B8";
+      const bgBar    = "#EFEBe4";
+      const fontMono = "'JetBrains Mono', monospace";
+
+      const svgEl  = document.getElementById("quality-chart");
+      const W      = +svgEl.getAttribute("width");
+      const H      = +svgEl.getAttribute("height");
+      const margin = { top: 20, right: 24, bottom: 40, left: 40 };
+      const w      = W - margin.left - margin.right;
+      const h      = H - margin.top  - margin.bottom;
+
+      const svg = d3.select(svgEl)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      const x = d3.scaleBand()
+        .domain(data.map(d => d.label))
+        .range([0, w])
+        .padding(0.38);
+
+      const y = d3.scaleLinear()
+        .domain([0, 10])
+        .range([h, 0]);
+
+      svg.append("g")
+        .attr("transform", `translate(0,${h})`)
+        .call(d3.axisBottom(x).tickSize(0))
+        .call(g => g.select(".domain").attr("stroke", border))
+        .call(g => g.selectAll("text")
+          .style("font-family", fontMono)
+          .style("font-size", "11px")
+          .attr("fill", muted)
+          .attr("dy", "1.2em"));
+
+      svg.append("g")
+        .call(d3.axisLeft(y).ticks(5).tickSize(-w))
+        .call(g => g.select(".domain").remove())
+        .call(g => g.selectAll(".tick line")
+          .attr("stroke", border)
+          .attr("stroke-dasharray", "2,3"))
+        .call(g => g.selectAll("text")
+          .style("font-family", fontMono)
+          .style("font-size", "11px")
+          .attr("fill", muted));
+
+      svg.selectAll(".bar")
+        .data(data)
+        .join("rect")
+          .attr("x", d => x(d.label))
+          .attr("y", d => y(d.mean))
+          .attr("width", x.bandwidth())
+          .attr("height", d => h - y(d.mean))
+          .attr("fill", (d, i) => i === data.length - 1 ? accent : bgBar)
+          .attr("stroke", accent)
+          .attr("stroke-width", 1);
+
+      svg.selectAll(".err")
+        .data(data)
+        .join("line")
+          .attr("x1", d => x(d.label) + x.bandwidth() / 2)
+          .attr("x2", d => x(d.label) + x.bandwidth() / 2)
+          .attr("y1", d => y(Math.min(10, d.mean + d.sd)))
+          .attr("y2", d => y(Math.max(0,  d.mean - d.sd)))
+          .attr("stroke", muted)
+          .attr("stroke-width", 1.5);
+
+      svg.selectAll(".val")
+        .data(data)
+        .join("text")
+          .attr("x", d => x(d.label) + x.bandwidth() / 2)
+          .attr("y", d => y(d.mean) - 6)
+          .attr("text-anchor", "middle")
+          .style("font-family", fontMono)
+          .style("font-size", "11px")
+          .attr("fill", accent)
+          .text(d => d.mean.toFixed(1));
+    })();
+  </script>
+
+</body>
+</html>

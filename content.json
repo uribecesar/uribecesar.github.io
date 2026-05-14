@@ -1,0 +1,37 @@
+ 
+{
+  "videos": [
+    {
+      "id": 1,
+      "titulo": "Introducción a la Inteligencia Artificial Generativa",
+      "fecha_publicacion": "2026-05-10",
+      "enlace": "https://www.youtube.com/watch?v=abc123xyz"
+    }
+  ],
+  "libros": [
+    {
+      "id": 101,
+      "nombre_libro": "Deep Learning",
+      "autor": "Ian Goodfellow",
+      "fecha_publicacion": "2016-11-18",
+      "enlace": "https://www.deeplearningbook.org/",
+      "descripcion": "Lo recomiendo porque explica las bases matemáticas y conceptuales del deep learning moderno de manera rigurosa."
+    },
+    {
+      "id": 102,
+      "nombre_libro": "Artificial Intelligence: A Modern Approach",
+      "autor": "Stuart Russell y Peter Norvig",
+      "fecha_publicacion": "2020-04-28",
+      "enlace": "https://aima.cs.berkeley.edu/",
+      "descripcion": "Lo recomiendo porque es uno de los libros más completos sobre inteligencia artificial clásica y moderna."
+    },
+    {
+      "id": 103,
+      "nombre_libro": "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow",
+      "autor": "Aurélien Géron",
+      "fecha_publicacion": "2022-10-15",
+      "enlace": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/",
+      "descripcion": "Lo recomiendo porque combina teoría y práctica con ejemplos reales en Python orientados a proyectos."
+    }
+  ]
+}

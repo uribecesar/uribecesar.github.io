@@ -9,3 +9,20 @@ _site
 Gemfile.lock
 vendor
 
+# Python virtual env
+venv/
+env/
+.venv/
+
+# Variables de entorno
+.env
+
+# Cache Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Archivos sistema
+.DS_Store

@@ -1,223 +1,393 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis de Sistemas Complejos - Guía de Estilo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-paper: #fdfdfd;
-            --text-main: #1a1a1a;
-            --text-muted: #4b5563;
-            --accent: #1e40af;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>César Uribe — Ingeniero de Sistemas &amp; Divulgador tecnológico</title>
+  <meta name="description" content="Ingeniero de Sistemas especializado en automatización con IA para PYMEs. Cursos en Udemy, contenido en YouTube.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #F9F6F1;
+      --bg-code:   #EFEBe4;
+      --text:      #1C1917;
+      --muted:     #6B6560;
+      --border:    #D8D3CB;
+      --accent:    #2A5C5A;
+      --rule:      #C8C2B8;
+      --font-body: 'Lora', Georgia, serif;
+      --font-head: 'Playfair Display', 'Times New Roman', serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+      --measure:   68ch;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    body { max-width: var(--measure); margin: 0 auto; padding: 0 1.5rem 6rem; }
+    a { color: var(--accent); }
+    footer.site-footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.75rem;
+    }
+    footer.site-footer a { color: var(--accent); text-decoration: none; }
+    footer.site-footer a:hover { text-decoration: underline; }
+    @media (max-width: 640px) { html { font-size: 16px; } }
 
-        body {
-            background-color: var(--bg-paper);
-            color: var(--text-main);
-            font-family: 'Lora', serif;
-            line-height: 1.75;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        h1, h2, h3, nav, .sans {
-            font-family: 'Inter', sans-serif;
-            letter-spacing: -0.02em;
-        }
-
-        .article-container {
-            max-width: 70ch;
-            margin: 0 auto;
-            padding: 4rem 1.5rem;
-        }
-
-        .abstract {
-            background: #f8fafc;
-            border-left: 3px solid var(--text-main);
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-style: italic;
-            font-size: 0.95rem;
-        }
-
-        code {
-            font-family: 'JetBrains Mono', monospace;
-            background: #f1f5f9;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.85em;
-        }
-
-        blockquote {
-            border-left: 2px solid #e2e8f0;
-            padding-left: 1.5rem;
-            color: var(--text-muted);
-            margin: 2rem 0;
-        }
-
-        /* Gráficos de barras CSS-only */
-        .bar-chart {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin: 2rem 0;
-        }
-
-        .bar-row {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .bar-label {
-            width: 80px;
-            font-size: 0.8rem;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .bar-bg {
-            flex-grow: 1;
-            background: #f1f5f9;
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            background: var(--text-main);
-            border-radius: 4px;
-        }
-
-        footer {
-            border-top: 1px solid #e2e8f0;
-            margin-top: 5rem;
-            padding-top: 2rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-    </style>
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0.9rem 0;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      border-radius: 2px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn:hover { background: var(--accent); color: var(--bg); }
+    .hero {
+      padding: 2rem 0 2rem;
+      border-bottom: 1.5px solid var(--accent);
+      margin-bottom: 3rem;
+    }
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+    .hero .roles {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+    .hero .tagline {
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 1.25rem;
+      max-width: 52ch;
+      line-height: 1.6;
+    }
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+    .hero-links a { color: var(--accent); text-decoration: none; }
+    .hero-links a:hover { text-decoration: underline; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .video-block { margin-bottom: 3rem; }
+    .video-card {
+      display: block;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .video-card:hover .video-title { color: var(--accent); }
+    .video-card img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      filter: grayscale(10%) contrast(1.03);
+    }
+    .video-info {
+      padding: 0.9rem 1rem;
+      background: var(--bg-code);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .video-title {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .video-date {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .featured-post {
+      margin-bottom: 3rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .featured-post h2 {
+      font-family: var(--font-head);
+      font-size: 1.55rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+    }
+    .featured-post h2 a { color: var(--text); text-decoration: none; }
+    .featured-post h2 a:hover { color: var(--accent); }
+    .post-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+      display: flex;
+      gap: 1rem;
+    }
+    .post-meta .category { color: var(--accent); }
+    .description {
+      font-size: 0.92rem;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.6rem; }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.15rem 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--muted);
+    }
+    .about-block {
+      margin-bottom: 3rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .about-block img {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      filter: grayscale(15%);
+    }
+    .about-text p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .recent-posts { margin-bottom: 3rem; }
+    .post-list { list-style: none; }
+    .post-list li {
+      display: flex;
+      gap: 1.25rem;
+      align-items: baseline;
+      padding: 0.65rem 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .post-list li:first-child { border-top: 0.5px solid var(--border); }
+    .item-date {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+      min-width: 7.5ch;
+    }
+    .post-list a {
+      font-size: 0.95rem;
+      color: var(--text);
+      text-decoration: none;
+      line-height: 1.4;
+    }
+    .post-list a:hover { color: var(--accent); }
+    .see-all {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .see-all:hover { text-decoration: underline; }
+    .books-block { margin-bottom: 3rem; }
+    .book-list { display: flex; flex-direction: column; }
+    .book-card {
+      padding: 1.1rem 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .book-card:first-child { border-top: 0.5px solid var(--border); }
+    .book-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.35rem;
+    }
+    .book-card h3 {
+      font-family: var(--font-body);
+      font-size: 0.97rem;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+    .book-card h3 a { color: var(--text); text-decoration: none; }
+    .book-card h3 a:hover { color: var(--accent); }
+    .book-author {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+    .book-year {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--rule);
+      white-space: nowrap;
+    }
+    .book-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.6;
+    }
+    .generated-note {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--rule);
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2rem; }
+      .video-info { flex-direction: column; gap: 0.25rem; }
+      .about-block { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="article-container">
-        <nav class="mb-12 text-sm sans uppercase tracking-widest font-semibold text-gray-500">
-            <a href="#" class="hover:text-blue-700 transition">Archivo</a> / 
-            <a href="#" class="hover:text-blue-700 transition">Investigación</a> / 
-            <span class="text-gray-300">Vol. 04</span>
-        </nav>
+  <nav class="topbar">
+    <a class="btn" href="blog/">Blog →</a>
+  </nav>
 
-        <header class="mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
-                Principios de Visualización en la Redacción Técnica y Académica
-            </h1>
-            <p class="text-xl text-gray-600 font-normal italic">
-                Un manifiesto sobre la sobriedad visual en la era del exceso de datos.
-            </p>
-            
-            <div class="mt-8 flex items-center gap-4 border-y border-gray-100 py-4 sans">
-                <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                    <img src="https://placehold.co/100x100/1a1a1a/ffffff?text=A" alt="Autor">
-                </div>
-                <div>
-                    <p class="text-sm font-semibold">Dr. Papu Analítico</p>
-                    <p class="text-xs text-gray-400 uppercase tracking-tighter">14 Mayo 2026 • 8 min de lectura</p>
-                </div>
-            </div>
-        </header>
+  <header class="hero">
+    <p class="roles">Ingeniero de Sistemas · Divulgador tecnológico</p>
+    <h1>César E. Uribe</h1>
+    <p class="tagline">Desarrollo de sistemas para PYMEs y divulgación de inteligencia artificial aplicada.</p>
+    <nav class="hero-links">
+      <a href="mailto:cesaruribeperu@gmail.com">cesaruribeperu@gmail.com</a>
+      <a href="https://www.youtube.com/@uribecesare" target="_blank" rel="noopener">YouTube</a>
+    </nav>
+  </header>
 
-        <section class="abstract">
-            <strong>Abstract:</strong> Este documento explora cómo la reducción de elementos visuales superfluos en artículos digitales mejora la retención cognitiva. Se propone una estructura basada en HTML plano para garantizar la longevidad del contenido y la accesibilidad universal.
-        </section>
+  <section class="video-block">
+    <p class="section-label">Último video</p>
+    <a class="video-card" href="https://www.youtube.com/watch?v=abc123xyz" target="_blank" rel="noopener">
+      <img src="https://img.youtube.com/vi/abc123xyz/maxresdefault.jpg" alt="Introducción a la Inteligencia Artificial Generativa" loading="lazy">
+      <div class="video-info">
+        <span class="video-title">Introducción a la Inteligencia Artificial Generativa</span>
+        <span class="video-date">10 May 2026</span>
+      </div>
+    </a>
+  </section>
 
-        <p class="mb-6">
-            La creación de contenido técnico a menudo cae en la trampa de la sobre-ingeniería. En este análisis, demostramos que una tipografía <code>serif</code> bien implementada, junto con un uso estratégico del espacio negativo, comunica mayor autoridad que cualquier dashboard complejo.
-        </p>
-
-        <h2 class="text-2xl font-bold mt-10 mb-4">I. Estructura de Análisis de Datos</h2>
-        <p class="mb-6">
-            Para presentar datos sin depender de librerías JS pesadas, podemos utilizar tablas semánticas y componentes CSS ligeros. A continuación, se muestra la distribución de eficiencia de este modelo:
-        </p>
-
-        <!-- Gráfico Sobrio en CSS -->
-        <div class="bar-chart bg-white p-6 border border-gray-100 rounded-xl shadow-sm">
-            <p class="sans font-bold text-xs uppercase mb-4 text-gray-400">Eficiencia de Carga (ms)</p>
-            <div class="bar-row">
-                <span class="bar-label">Este Template</span>
-                <div class="bar-bg"><div class="bar-fill" style="width: 15%;"></div></div>
-                <span class="text-xs font-mono">120ms</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">React/Next</span>
-                <div class="bar-bg"><div class="bar-fill" style="width: 65%; opacity: 0.5;"></div></div>
-                <span class="text-xs font-mono">850ms</span>
-            </div>
-            <div class="bar-row">
-                <span class="bar-label">Wordpress</span>
-                <div class="bar-bg"><div class="bar-fill" style="width: 90%; opacity: 0.3;"></div></div>
-                <span class="text-xs font-mono">1.2s</span>
-            </div>
-        </div>
-
-        <h2 class="text-2xl font-bold mt-10 mb-4">II. Representación de Flujos</h2>
-        <p class="mb-6">
-            Aunque evitamos el JS para el contenido estático, herramientas como <strong>Mermaid.js</strong> son fundamentales para diagramas lógicos. Su sintaxis declarativa permite que el "código" del gráfico sea legible incluso si el JS no carga.
-        </p>
-
-        <div class="mermaid flex justify-center my-10 p-4 bg-gray-50 rounded-lg">
-            graph TD
-                A[Idea Cruda] --> B{Filtro Académico}
-                B -->|Sencillez| C[Publicación GitHub]
-                B -->|Complejidad| D[Rediseño Requerido]
-                C --> E[Impacto Duradero]
-        </div>
-
-        <h2 class="text-2xl font-bold mt-10 mb-4">III. Integración Visual</h2>
-        <p class="mb-6">
-            Las imágenes deben servir como apoyo, no como distracción. Al usar <em>Lorem Picsum</em> o imágenes reales, aplicamos un sutil filtro de desaturación para mantener la armonía cromática del papel.
-        </p>
-
-        <figure class="my-10">
-            <img src="https://picsum.photos/id/42/800/450" 
-                 alt="Referencia visual" 
-                 class="rounded-lg w-full filter grayscale-[30%] hover:grayscale-0 transition-all duration-700"
-                 onerror="this.src='https://placehold.co/800x450?text=Imagen+Referencial'">
-            <figcaption class="text-center text-sm text-gray-500 mt-4 italic sans">
-                Fig 1. Representación de la calma visual en entornos de trabajo.
-            </figcaption>
-        </figure>
-
-        <blockquote>
-            "La perfección se alcanza, no cuando no hay nada más que añadir, sino cuando no queda nada por quitar." 
-            <footer class="border-none mt-2 italic">— Antoine de Saint-Exupéry</footer>
-        </blockquote>
-
-        <footer class="sans">
-            <div class="flex justify-between items-center">
-                <p>© 2026 • Generado con Estética Minimalista</p>
-                <div class="flex gap-4">
-                    <a href="#" class="underline">RSS</a>
-                    <a href="#" class="underline">Github</a>
-                </div>
-            </div>
-        </footer>
+  <section class="featured-post">
+    <p class="section-label">Último artículo</p>
+    <div class="post-meta">
+      <time datetime="2025-05-14">14 May 2025</time>
+      <span class="category">Inteligencia Artificial Aplicada</span>
     </div>
+    <h2><a href="blog/El-Costo-de-no-saber.html">El costo oculto de no saber pedir</a></h2>
+    <p class="description">Una aproximación formal a la degradación del output cuando la estructura del prompt se aleja del vector de expectativa del modelo.</p>
+    <div class="tags"><span class="tag">prompt engineering</span><span class="tag">LLM</span><span class="tag">semántica formal</span><span class="tag">IA aplicada</span><span class="tag">OSAC</span></div>
+  </section>
 
-    <!-- Carga diferida de Mermaid para no bloquear el renderizado -->
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ 
-            startOnLoad: true,
-            theme: 'neutral',
-            fontFamily: 'Inter',
-            themeVariables: {
-                primaryColor: '#e2e8f0',
-                edgeLabelBackground:'#ffffff',
-                tertiaryColor: '#f8fafc'
-            }
-        });
-    </script>
+  <section class="about-block">
+    <img src="/image/pfp.png" alt="César Uribe">
+    <div class="about-text">
+      <p class="section-label">Acerca de</p>
+      <p>Ingeniero de Sistemas con experiencia en desarrollo de soluciones para PYMEs. Divulgador tecnológico en Udemy y YouTube con enfoque en automatización mediante IA aplicada. Docente en Zegel IPAE y escritor aficionado.</p>
+    </div>
+  </section>
+
+
+  <section class="books-block">
+    <p class="section-label">Libros recomendados</p>
+    <div class="book-list">
+    <article class="book-card">
+      <div class="book-header">
+        <div>
+          <h3><a href="https://www.deeplearningbook.org/" target="_blank" rel="noopener">Deep Learning</a></h3>
+          <p class="book-author">Ian Goodfellow</p>
+        </div>
+        <span class="book-year">18 Nov 2</span>
+      </div>
+      <p class="book-desc">Lo recomiendo porque explica las bases matemáticas y conceptuales del deep learning moderno de manera rigurosa.</p>
+    </article>
+    <article class="book-card">
+      <div class="book-header">
+        <div>
+          <h3><a href="https://aima.cs.berkeley.edu/" target="_blank" rel="noopener">Artificial Intelligence: A Modern Approach</a></h3>
+          <p class="book-author">Stuart Russell y Peter Norvig</p>
+        </div>
+        <span class="book-year">28 Apr 2</span>
+      </div>
+      <p class="book-desc">Lo recomiendo porque es uno de los libros más completos sobre inteligencia artificial clásica y moderna.</p>
+    </article>
+    <article class="book-card">
+      <div class="book-header">
+        <div>
+          <h3><a href="https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/" target="_blank" rel="noopener">Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</a></h3>
+          <p class="book-author">Aurélien Géron</p>
+        </div>
+        <span class="book-year">15 Oct 2</span>
+      </div>
+      <p class="book-desc">Lo recomiendo porque combina teoría y práctica con ejemplos reales en Python orientados a proyectos.</p>
+    </article>
+    </div>
+  </section>
+
+  <p class="generated-note">Generado automáticamente · 14 May 2026, 16:59</p>
+
+  <footer class="site-footer">
+    <span>© César Uribe</span>
+    <a href="mailto:cesaruribeperu@gmail.com">cesaruribeperu@gmail.com</a>
+    <a href="https://www.youtube.com/@uribecesare" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://uribecesar.github.io">uribecesar.github.io</a>
+  </footer>
+
 </body>
 </html>
