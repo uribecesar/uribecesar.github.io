@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard HTML desde datos con IA — César Uribe</title>
+
+  <meta name="description"    content="Guía práctica para convertir una hoja de cálculo en un dashboard web profesional e interactivo usando IA generativa y el marco OSAC.">
+  <meta name="author"         content="César Uribe">
+  <meta name="post:date"      content="2026-05-14">
+  <meta name="post:category"  content="Inteligencia Artificial Aplicada">
+  <meta name="post:tags"      content="dashboard, HTML, IA aplicada, OSAC, visualización de datos, glassmorfismo">
+  <meta name="post:status"    content="published">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:         #F9F6F1;
+      --bg-code:    #EFEBe4;
+      --bg-table-h: #EDE9E2;
+      --text:       #1C1917;
+      --muted:      #6B6560;
+      --border:     #D8D3CB;
+      --accent:     #2A5C5A;
+      --accent-mid: #3D8A87;
+      --rule:       #C8C2B8;
+      --font-body:  'Lora', Georgia, serif;
+      --font-head:  'Playfair Display', 'Times New Roman', serif;
+      --font-mono:  'JetBrains Mono', 'Courier New', monospace;
+      --measure:    68ch;
+      --leading:    1.78;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: var(--leading);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      max-width: var(--measure);
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 6rem;
+    }
+
+    nav.breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav.breadcrumb a { color: var(--accent); text-decoration: none; }
+    nav.breadcrumb a:hover { text-decoration: underline; }
+    nav.breadcrumb .sep { color: var(--rule); }
+
+    .article-header {
+      border-bottom: 1.5px solid var(--accent);
+      padding-bottom: 1.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .article-header h1 {
+      font-family: var(--font-head);
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .article-header .subtitle {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      line-height: 1.55;
+    }
+
+    .article-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .article-meta span::before { content: attr(data-label) " "; font-weight: 500; color: var(--text); }
+
+    p { margin-bottom: 1.35rem; }
+    p + p { text-indent: 1.5em; margin-top: -0.35rem; }
+
+    h2 + p, h3 + p, figure + p, blockquote + p,
+    .abstract + p, pre + p, .data-table + p, hr + p,
+    .diagram-block + p, .chart-block + p,
+    .checklist + p, .step-list + p { text-indent: 0; }
+
+    h2 {
+      font-family: var(--font-head);
+      font-size: 1.55rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text);
+      margin: 3rem 0 0.9rem;
+    }
+
+    h3 {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 500;
+      font-style: italic;
+      color: var(--text);
+      margin: 2.25rem 0 0.6rem;
+    }
+
+    h2 .section-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      margin-right: 0.6rem;
+      vertical-align: 0.15em;
+    }
+
+    .abstract {
+      background: var(--bg-code);
+      border-left: 3px solid var(--accent);
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.93rem;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .abstract strong {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    blockquote {
+      border-left: 2px solid var(--accent-mid);
+      padding: 0.3rem 1.4rem;
+      margin: 2rem 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    blockquote footer {
+      margin-top: 0.5rem;
+      font-style: normal;
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+    }
+
+    blockquote footer::before { content: "— "; }
+
+    figure { margin: 2.5rem 0; }
+
+    figure img {
+      width: 100%;
+      display: block;
+      border-radius: 2px;
+      filter: grayscale(12%) contrast(1.04);
+    }
+
+    figcaption {
+      margin-top: 0.55rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    figcaption strong { color: var(--text); font-weight: 500; }
+
+    .diagram-block {
+      margin: 2.5rem 0;
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1.5rem 1rem 0.75rem;
+      overflow-x: auto;
+    }
+
+    .diagram-block .diagram-caption {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .diagram-block .mermaid { display: flex; justify-content: center; }
+
+    .data-table { margin: 2.25rem 0; overflow-x: auto; }
+
+    .data-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+    }
+
+    .data-table thead th {
+      background: var(--bg-table-h);
+      color: var(--text);
+      font-weight: 500;
+      text-align: left;
+      padding: 0.55rem 0.85rem;
+      border-bottom: 1.5px solid var(--rule);
+      white-space: nowrap;
+    }
+
+    .data-table tbody td {
+      padding: 0.5rem 0.85rem;
+      border-bottom: 0.5px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    .data-table tbody tr:last-child td { border-bottom: 1.5px solid var(--rule); }
+
+    .data-table tfoot td {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .td-num { text-align: right; font-variant-numeric: tabular-nums; }
+    .td-hi  { color: var(--accent); font-weight: 500; }
+    .td-no  { color: var(--muted); }
+
+    pre {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-mid);
+      border-radius: 0 2px 2px 0;
+      padding: 1.1rem 1.25rem;
+      overflow-x: auto;
+      margin: 2rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: var(--bg-code);
+      padding: 0.1em 0.35em;
+      border-radius: 2px;
+      color: var(--accent);
+    }
+
+    pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+
+    hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+    hr.ornamental { border: none; text-align: center; margin: 2.5rem 0; }
+    hr.ornamental::before {
+      content: "· · ·";
+      color: var(--rule);
+      letter-spacing: 0.5em;
+      font-size: 0.9rem;
+    }
+
+    /* Checklist */
+    .checklist {
+      margin: 1.75rem 0;
+      padding: 1.1rem 1.4rem;
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+    }
+
+    .checklist ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .checklist li {
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      line-height: 1.6;
+      padding: 0.3rem 0;
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      align-items: baseline;
+      gap: 0.65rem;
+      color: var(--text);
+    }
+
+    .checklist li:last-child { border-bottom: none; }
+
+    .checklist li::before {
+      content: "□";
+      color: var(--accent);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    /* Step list */
+    .step-list {
+      margin: 1.75rem 0;
+      counter-reset: steps;
+    }
+
+    .step-list .step {
+      display: flex;
+      gap: 1.1rem;
+      margin-bottom: 1.2rem;
+      align-items: flex-start;
+    }
+
+    .step-list .step-num {
+      counter-increment: steps;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--accent);
+      min-width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+    }
+
+    .step-list .step-body { flex: 1; }
+
+    .step-list .step-title {
+      font-family: var(--font-body);
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .step-list .step-desc {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* Callout / tip */
+    .callout {
+      border-left: 3px solid var(--accent-mid);
+      background: var(--bg-code);
+      padding: 0.9rem 1.25rem;
+      margin: 2rem 0;
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+
+    .callout strong {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-mid);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .footnotes {
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .footnotes ol { padding-left: 1.5rem; }
+    .footnotes li { margin-bottom: 0.45rem; }
+
+    sup { font-size: 0.7em; color: var(--accent); }
+    a[href^="#fn"]    { color: var(--accent); text-decoration: none; }
+    a[href^="#fnref"] { color: var(--accent); text-decoration: none; }
+
+    .tags {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--muted);
+      text-transform: lowercase;
+    }
+
+    footer.site-footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.75rem;
+      align-items: center;
+    }
+
+    footer.site-footer a { color: var(--accent); text-decoration: none; }
+    footer.site-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      html { font-size: 16px; }
+      .article-header h1 { font-size: 1.85rem; }
+    }
+
+    @media print {
+      body { max-width: 100%; padding: 1cm 2cm; }
+      .diagram-block { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="breadcrumb">
+    <a href="https://uribecesar.github.io">Inicio</a>
+    <span class="sep">/</span>
+    <a href="https://uribecesar.github.io/blog">Blog</a>
+  </nav>
+
+  <header class="article-header">
+    <h1>Dashboard HTML desde datos con IA</h1>
+    <p class="subtitle">Guía práctica para convertir una hoja de cálculo en una aplicación web interactiva, profesional y descargable — sin escribir código, sin instalar nada.</p>
+    <div class="article-meta">
+      <span data-label="Autor:">César Uribe</span>
+      <span data-label="Fecha:">14 mayo 2026</span>
+      <span data-label="Categoría:">IA Aplicada</span>
+    </div>
+  </header>
+
+  <div class="abstract">
+    <strong>Resumen</strong>
+    El resultado de esta guía es un archivo <code>.html</code> autocontenido que incluye gráficos interactivos, filtros, insights automáticos y un botón para descargarse a sí mismo. El proceso completo — desde los datos hasta el dashboard publicado — toma menos de cuarenta minutos y no requiere conocimientos de programación. El único requisito es tener los datos ordenados y saber construir un prompt con estructura.
+  </div>
+
+  <h2><span class="section-num">01</span>Qué se obtiene al final</h2>
+
+  <p>Un dashboard web es una aplicación que transforma datos tabulares en visualizaciones interactivas accesibles desde cualquier navegador. En el enfoque que describe esta guía, ese resultado vive en un único archivo <code>.html</code> que no depende de servidores, bases de datos ni conexión permanente a internet.</p>
+
+  <p>El archivo generado incluye: un encabezado con métricas clave, seis gráficos interactivos, un panel de filtros que actualiza todas las vistas simultáneamente, un bloque de insights automáticos derivados de los propios datos, una tabla paginada con todos los registros originales y un botón que permite al usuario descargar el archivo completo desde el navegador.</p>
+
+  <figure>
+    <img src="https://picsum.photos/seed/dashboard2026/900/380" alt="Representación de un dashboard de datos profesional" loading="lazy">
+    <figcaption>
+      <strong>Figura 1.</strong> El resultado es un archivo HTML autocontenido: todo el código, los datos y las visualizaciones viajan juntos en un único documento descargable y publicable.
+    </figcaption>
+  </figure>
+
+  <h2><span class="section-num">02</span>Preparación de los datos</h2>
+
+  <p>La calidad del dashboard depende directamente de la calidad de los datos que lo alimentan. Una fuente de datos desordenada produce visualizaciones incorrectas con la misma facilidad con que produce resultados correctos cuando está limpia. Este paso no es opcional.</p>
+
+  <h3>2.1 Formato del archivo según la herramienta</h3>
+
+  <p>No todas las herramientas de IA procesan archivos de la misma manera. La elección del formato depende de si la herramienta dispone de módulo de análisis de datos o no.</p>
+
+  <div class="data-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Herramienta</th>
+          <th>Análisis de datos</th>
+          <th>Formato recomendado</th>
+          <th>Alternativa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-hi">ChatGPT Plus / Team</td>
+          <td class="td-hi">Sí</td>
+          <td>Excel <code>.xlsx</code></td>
+          <td>CSV</td>
+        </tr>
+        <tr>
+          <td class="td-hi">Gemini Advanced</td>
+          <td class="td-hi">Sí</td>
+          <td>Excel <code>.xlsx</code></td>
+          <td>CSV, PDF</td>
+        </tr>
+        <tr>
+          <td>Claude (todos los planes)</td>
+          <td class="td-no">Lectura directa</td>
+          <td>CSV o PDF</td>
+          <td>Texto pegado en el chat</td>
+        </tr>
+        <tr>
+          <td>ChatGPT gratuito</td>
+          <td class="td-no">No</td>
+          <td>CSV o texto plano</td>
+          <td>PDF con tabla simple</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">El PDF funciona cuando contiene una tabla limpia, sin columnas fusionadas ni encabezados repetidos por página.</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <h3>2.2 Checklist de limpieza antes de subir</h3>
+
+  <p>Antes de cargar el archivo, verificar que cumple estas condiciones. Cada punto que falla produce un error silencioso en el dashboard: el gráfico se genera, pero con valores incorrectos.</p>
+
+  <div class="checklist">
+    <ul>
+      <li>Los encabezados de columna están en la primera fila, sin celdas combinadas</li>
+      <li>Los nombres de columna no contienen tildes, espacios ni caracteres especiales</li>
+      <li>No hay filas de totales ni subtotales dentro de la tabla</li>
+      <li>Las fechas siguen un formato consistente en toda la columna (ej. <code>YYYY-MM-DD</code>)</li>
+      <li>Los montos o valores numéricos no contienen símbolos de moneda ni puntos de miles</li>
+      <li>No hay celdas vacías en las columnas que se usarán para filtros o agrupaciones</li>
+      <li>La tabla ocupa una sola hoja, sin hojas adicionales que interfieran</li>
+      <li>No hay filas completamente vacías entre los datos</li>
+    </ul>
+  </div>
+
+  <blockquote>
+    Los datos no limpios no producen errores visibles: producen resultados plausibles pero incorrectos. Ese es el tipo de error más costoso.
+    <footer>Principio básico de calidad de datos</footer>
+  </blockquote>
+
+  <h2><span class="section-num">03</span>El flujo de trabajo</h2>
+
+  <p>El proceso completo sigue siete pasos en secuencia. Los pasos 1 y 5 son los que concentran la mayor parte del tiempo; los demás son ejecución directa una vez que los datos y el prompt están listos.</p>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Preparar y verificar los datos</div>
+        <div class="step-desc">Aplicar el checklist de limpieza. Guardar en el formato adecuado según la herramienta elegida.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Elegir la herramienta</div>
+        <div class="step-desc">Con módulo de análisis de datos → subir Excel directamente. Sin módulo → convertir a CSV o copiar los datos como texto.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Construir el prompt con el marco OSAC</div>
+        <div class="step-desc">Usar la plantilla de la sección 04. Adjuntar el archivo o pegar los datos según el caso.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Previsualizar el resultado</div>
+        <div class="step-desc">Copiar el código generado en un archivo <code>.html</code> y abrirlo en el navegador. O previsualizar directamente si la herramienta lo permite.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title">Iterar con un segundo prompt</div>
+        <div class="step-desc">Ajustar colores, reorganizar secciones o corregir datos con una instrucción de ajuste fino. No regenerar desde cero.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <div class="step-title">Descargar usando el botón de autoexportación</div>
+        <div class="step-desc">El propio dashboard incluye un botón que guarda el archivo completo. Alternativa rápida: <code>Ctrl+S</code> desde el navegador con el archivo abierto.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <div class="step-title">Publicar o distribuir</div>
+        <div class="step-desc">Uso local, Google Sites, o Netlify Drop: arrastrar el archivo en netlify.com/drop y obtener una URL pública en menos de veinte segundos.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-block">
+    <pre class="mermaid">
+flowchart LR
+  A["Datos\nlimpios"] --> B{"¿Tiene módulo\nde análisis?"}
+  B -- Sí --> C["Subir\nExcel"]
+  B -- No --> D["CSV / PDF\n/ texto"]
+  C & D --> E["Prompt\nOSAC"]
+  E --> F["Primer\noutput"]
+  F --> G{"¿Requiere\najuste?"}
+  G -- Sí --> H["Prompt de\najuste fino"]
+  H --> F
+  G -- No --> I["Descargar\nHTML"]
+  I --> J["Publicar"]
+  style A fill:#EFEBe4,stroke:#2A5C5A,color:#1C1917
+  style E fill:#2A5C5A,stroke:#2A5C5A,color:#F9F6F1
+  style I fill:#EFEBe4,stroke:#2A5C5A,color:#1C1917
+  style J fill:#EFEBe4,stroke:#2A5C5A,color:#1C1917
+    </pre>
+    <p class="diagram-caption">Figura 2. Flujo de trabajo completo desde los datos hasta la publicación. El ciclo de ajuste fino puede repetirse las veces necesarias sin regenerar desde cero.</p>
+  </div>
+
+  <h2><span class="section-num">04</span>El prompt OSAC</h2>
+
+  <p>El prompt está estructurado en cuatro bloques: <strong>Rol</strong>, <strong>Objetivo</strong>, <strong>Salida</strong>, <strong>Advertencias</strong> y <strong>Contexto</strong>. Cada bloque reduce la ambigüedad en una dimensión diferente y hace que el resultado sea predecible y repetible. El único dato que cambia entre usos es el archivo adjunto y los detalles del contexto.</p>
+
+  <h3>4.1 Plantilla base</h3>
+
+<pre><code>ROL
+Eres un desarrollador frontend experto en visualización de datos
+y diseño moderno de dashboards web.
+
+OBJETIVO
+Crear un dashboard financiero completo en un único archivo HTML
+autocontenido, a partir de los datos del documento adjunto.
+El dashboard debe permitir analizar ingresos, egresos y el balance
+general de un profesional independiente de forma visual, clara
+y profesional.
+
+SALIDA
+Un archivo HTML monolítico que incluya todo el CSS y JavaScript
+embebido, con las siguientes secciones:
+
+- Encabezado con título, rango de fechas y resumen estadístico:
+  total ingresos, total egresos, balance neto y cantidad de
+  transacciones.
+- Panel de filtros por tipo (ingreso/egreso), por categoría
+  y por rango de fechas.
+- Seis gráficos: ingresos vs egresos por mes, distribución por
+  categoría, evolución del balance acumulado, métodos de pago
+  más usados, top 5 categorías de gasto, y comparativa de
+  ingresos por tipo de proyecto.
+- Panel de insights automáticos con al menos tres observaciones
+  clave derivadas de los datos.
+- Tabla completa paginada, 10 registros por página, con todos
+  los campos originales.
+- Botón de descarga en la sección inferior que guarde el propio
+  archivo HTML completo con datos y código embebidos.
+
+ADVERTENCIAS
+- No omitas ningún registro. La tabla debe mostrar todos los datos.
+- El botón de descarga debe generar el archivo con datos y código
+  ya embebidos, sin depender de una URL externa.
+- Los filtros deben actualizar simultáneamente los gráficos,
+  el resumen estadístico y la tabla.
+
+CONTEXTO
+Los datos corresponden al registro de ingresos y egresos de un
+freelancer. Las columnas son: id, fecha, tipo, categoría,
+descripción, monto y método de pago.
+
+Estilo visual glassmorfismo: fondos con efecto cristal translúcido,
+gradientes oscuros en el fondo general, bordes con opacidad y
+sombras suaves. Animaciones de entrada al cargar la página.
+Paleta azul eléctrico y violeta con fondo oscuro.
+Diseño profesional para pantalla de escritorio.
+Aplica los colores corporativos presentes en los datos
+si los hubiera.</code></pre>
+
+  <div class="callout">
+    <strong>Nota sobre el botón de autoexportación</strong>
+    La instrucción de incluir un botón que descargue el propio código es lo que el prompt especifica en la sección de Advertencias. La mayoría de las herramientas lo implementan como un script que convierte el HTML a un Blob y lanza la descarga desde el navegador. Si el resultado no incluye ese botón, basta con pedirlo explícitamente en el segundo turno.
+  </div>
+
+  <h3>4.2 Segundo prompt: ajuste fino</h3>
+
+  <p>El primer output raramente es el final. El segundo prompt no regenera desde cero: parte del código ya generado y aplica modificaciones puntuales. Esta distinción es importante porque preserva toda la lógica funcional y solo modifica lo que se indica.</p>
+
+<pre><code>Mantén toda la funcionalidad y todos los datos.
+Aplica únicamente los siguientes cambios:
+
+[Describir el cambio específico. Ejemplos:]
+- Cambia la paleta de colores a tonos verdes corporativos.
+- Agranda el gráfico de barras de ingresos vs egresos.
+- Reorganiza el panel de insights para que aparezca
+  antes de los gráficos.
+- Agrega un gráfico adicional de evolución semanal.</code></pre>
+
+  <hr class="ornamental">
+
+  <h2><span class="section-num">05</span>Publicación y distribución</h2>
+
+  <p>El archivo HTML generado es completamente portátil. No requiere servidor, no requiere base de datos y funciona desde cualquier dispositivo con navegador. Las tres opciones de distribución más prácticas son las siguientes.</p>
+
+  <div class="data-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Opción</th>
+          <th>Tiempo de publicación</th>
+          <th>URL pública</th>
+          <th>Ideal para</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Uso local</td>
+          <td>Inmediato</td>
+          <td class="td-no">No</td>
+          <td>Revisión personal, presentaciones</td>
+        </tr>
+        <tr>
+          <td>Google Sites</td>
+          <td>5–10 min</td>
+          <td class="td-hi">Sí</td>
+          <td>Entornos con cuenta Google corporativa</td>
+        </tr>
+        <tr>
+          <td class="td-hi">Netlify Drop</td>
+          <td class="td-hi">~20 seg</td>
+          <td class="td-hi">Sí</td>
+          <td>Compartir rápido con URL pública</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">Netlify Drop: arrastrar el archivo en netlify.com/drop. No requiere cuenta ni registro para publicaciones temporales.</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <h2><span class="section-num">06</span>Adaptaciones del prompt para otros casos</h2>
+
+  <p>El prompt de la sección 04 es una plantilla reutilizable. Los cuatro puntos de variación que determinan el resultado son el tipo de profesional en el Objetivo, las columnas de los datos en el Contexto, los gráficos requeridos en la Salida, y la paleta de colores en el Contexto. Todo lo demás puede permanecer igual.</p>
+
+  <div class="data-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Elemento a cambiar</th>
+          <th>Ejemplo original</th>
+          <th>Ejemplo adaptado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tipo de profesional</td>
+          <td>freelancer</td>
+          <td>contador, docente, vendedor, clínica</td>
+        </tr>
+        <tr>
+          <td>Columnas del contexto</td>
+          <td>id, fecha, tipo, categoría, monto</td>
+          <td>alumno, curso, nota, asistencia, periodo</td>
+        </tr>
+        <tr>
+          <td>Gráficos en la Salida</td>
+          <td>ingresos vs egresos por mes</td>
+          <td>rendimiento por alumno, aprobados por curso</td>
+        </tr>
+        <tr>
+          <td>Paleta de colores</td>
+          <td>azul eléctrico y violeta</td>
+          <td>verde corporativo, tonos tierra, institucional</td>
+        </tr>
+        <tr>
+          <td>Número de gráficos</td>
+          <td>seis</td>
+          <td>cuatro (reducir para datos más simples)</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">La estructura OSAC permanece intacta. Solo se reemplazan los valores específicos del caso.</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>Para datos en PDF</strong>
+    Si la fuente de datos es un PDF, el proceso es el mismo. La condición es que el PDF contenga una tabla legible: sin columnas fusionadas, sin encabezados que se repitan en cada página y sin texto superpuesto sobre los datos. Un PDF de extracto bancario o reporte contable estándar cumple esas condiciones. Se adjunta igual que el Excel y el prompt no cambia.
+  </div>
+
+  <div class="tags">
+    <span class="tag">dashboard</span>
+    <span class="tag">html monolítico</span>
+    <span class="tag">IA aplicada</span>
+    <span class="tag">OSAC</span>
+    <span class="tag">visualización de datos</span>
+    <span class="tag">glassmorfismo</span>
+    <span class="tag">sin código</span>
+  </div>
+
+  <footer class="site-footer">
+    <span>© César Uribe</span>
+    <a href="mailto:cesaruribeperu@gmail.com">cesaruribeperu@gmail.com</a>
+    <a href="https://www.youtube.com/@uribecesare" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://uribecesar.github.io">uribecesar.github.io</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        background:         '#F9F6F1',
+        primaryColor:       '#EFEBe4',
+        primaryBorderColor: '#2A5C5A',
+        primaryTextColor:   '#1C1917',
+        lineColor:          '#2A5C5A',
+        secondaryColor:     '#EDE9E2',
+        tertiaryColor:      '#D8D3CB',
+        fontSize:           '14px',
+        fontFamily:         "'JetBrains Mono', monospace"
+      }
+    });
+  </script>
+
+</body>
+</html>
